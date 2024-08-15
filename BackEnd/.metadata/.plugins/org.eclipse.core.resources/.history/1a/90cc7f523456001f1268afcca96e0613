@@ -1,0 +1,62 @@
+package com.AppDev.FinDoc.service.impl;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.AppDev.FinDoc.dto.DoctorProfileDTO;
+import com.AppDev.FinDoc.entity.DoctorProfile;
+import com.AppDev.FinDoc.repository.DoctorProfileRepository;
+import com.AppDev.FinDoc.service.DoctorProfileService;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class DoctorProfileServiceImpl implements DoctorProfileService {
+
+    @Autowired
+    private DoctorProfileRepository doctorProfileRepository;
+
+    @Override
+    public DoctorProfileDTO createDoctorProfile(DoctorProfileDTO doctorProfileDTO) {
+        DoctorProfile doctorProfile = new DoctorProfile();
+        BeanUtils.copyProperties(doctorProfileDTO, doctorProfile);
+        doctorProfile = doctorProfileRepository.save(doctorProfile);
+        BeanUtils.copyProperties(doctorProfile, doctorProfileDTO);
+        return doctorProfileDTO;
+    }
+
+    @Override
+    public DoctorProfileDTO getDoctorProfileById(Long id) {
+        DoctorProfile doctorProfile = doctorProfileRepository.findById(id).orElseThrow();
+        DoctorProfileDTO doctorProfileDTO = new DoctorProfileDTO();
+        BeanUtils.copyProperties(doctorProfile, doctorProfileDTO);
+        return doctorProfileDTO;
+    }
+
+    @Override
+    public List<DoctorProfileDTO> getAllDoctorProfiles() {
+        return doctorProfileRepository.findAll().stream()
+                .map(doctorProfile -> {
+                    DoctorProfileDTO doctorProfileDTO = new DoctorProfileDTO();
+                    BeanUtils.copyProperties(doctorProfile, doctorProfileDTO);
+                    return doctorProfileDTO;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public DoctorProfileDTO updateDoctorProfile(Long id, DoctorProfileDTO doctorProfileDTO) {
+        DoctorProfile doctorProfile = doctorProfileRepository.findById(id).orElseThrow();
+        BeanUtils.copyProperties(doctorProfileDTO, doctorProfile);
+        doctorProfile = doctorProfileRepository.save(doctorProfile);
+        BeanUtils.copyProperties(doctorProfile, doctorProfileDTO);
+        return doctorProfileDTO;
+    }
+
+    @Override
+    public void deleteDoctorProfile(Long id) {
+        doctorProfileRepository.deleteById(id);
+    }
+}

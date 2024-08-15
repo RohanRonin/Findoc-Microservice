@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - mynetwork
+
+  backend:
+    image: findoc-back:backend  # Replace with your actual backend image name
+    build:
+      context: ./backend  # Adjust the path to your Spring Boot backend project
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATA_MONGODB_URI:  mongodb+srv://Rohan:Rohan123@findoc.ekrghqp.mongodb.net/?retryWrites=true&w=majority&appName=FinDoc # Adjust the URI as needed
+    depends_on:
+      - mongodb
+    networks:
+      - mynetwork
+
+  frontend:
+    image: findoc-fornt:forntend  # Replace with your actual frontend image name
+    build:
+      context: ./forntend  # Adjust the path to your frontend project
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge

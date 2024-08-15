@@ -1,0 +1,36 @@
+package com.AppDev.FinDoc.entity;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "doctor_profiles")
+public class DoctorProfile {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String firstName;
+    private String lastName;
+    private int age;
+    private String gender;
+    private String uniqueId;
+    private String email;
+    private String mobileNumber;
+    private String maritalStatus;
+    private String qualification;
+    private String designation;
+    private String bloodGroup;
+    private String address;
+    private String country;
+    private String state;
+    private String city;
+    private String postalCode;
+    private String bio;
+    private String profilePhoto;
+    private String availability;
+    private String username;
+    private String password;
+
+    // Getters and Setters
+}

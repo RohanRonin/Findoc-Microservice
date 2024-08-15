@@ -1,0 +1,10 @@
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+import com.AppDev.FinDoc.entity.DoctorProfile;
+
+@Repository
+public interface DoctorProfileRepository extends MongoRepository<DoctorProfile, String> {
+
+    // Custom query to find by uniqueId
+    DoctorProfile findByUniqueId(String uniqueId);
+}

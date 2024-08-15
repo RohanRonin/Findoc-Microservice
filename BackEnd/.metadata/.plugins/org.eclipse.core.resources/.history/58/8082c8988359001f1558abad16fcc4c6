@@ -1,0 +1,5 @@
+package com.AppDev.FinDoc.mapper;
+
+public class DoctorProfileMapper {
+
+}

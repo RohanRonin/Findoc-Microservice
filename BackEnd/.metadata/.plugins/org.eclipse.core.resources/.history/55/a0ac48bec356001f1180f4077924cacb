@@ -1,0 +1,55 @@
+package com.AppDev.FinDoc.service.impl;
+
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.AppDev.FinDoc.entity.DoctorProfile;
+import com.AppDev.FinDoc.repository.DoctorProfileRepository;
+import com.AppDev.FinDoc.service.DoctorProfileService;
+
+
+@Service
+public class DoctorProfileServiceImpl implements DoctorProfileService {
+
+    @Autowired
+    private DoctorProfileRepository doctorProfileRepository;
+
+    @Override
+    public DoctorProfile createDoctorProfile(DoctorProfile doctorProfile) {
+        // Generate unique ID if not provided
+        if (doctorProfile.getUniqueId() == null || doctorProfile.getUniqueId().isEmpty()) {
+            doctorProfile.setUniqueId(UUID.randomUUID().toString());
+        }
+        return doctorProfileRepository.save(doctorProfile);
+    }
+
+    @Override
+    public DoctorProfile getDoctorProfileByUniqueId(String uniqueId) {
+        return doctorProfileRepository.findByUniqueId(uniqueId);
+    }
+
+    @Override
+    public DoctorProfile updateDoctorProfile(String uniqueId, DoctorProfile doctorProfile) {
+        // Ensure uniqueId matches
+        if (!uniqueId.equals(doctorProfile.getUniqueId())) {
+            throw new RuntimeException("UniqueId mismatch");
+        }
+        return doctorProfileRepository.save(doctorProfile);
+    }
+
+    @Override
+    public void deleteDoctorProfile(String uniqueId) {
+        doctorProfileRepository.deleteById(uniqueId);
+    }
+
+    @Override
+    public List<DoctorProfile> getAllDoctorProfiles() {
+        return doctorProfileRepository.findAll();
+    }
+}
+

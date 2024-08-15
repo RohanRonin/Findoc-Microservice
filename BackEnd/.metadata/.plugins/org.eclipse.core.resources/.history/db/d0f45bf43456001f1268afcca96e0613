@@ -1,0 +1,44 @@
+package com.AppDev.FinDoc.controller;
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import com.AppDev.FinDoc.dto.DoctorProfileDTO;
+import com.AppDev.FinDoc.service.DoctorProfileService;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/doctor-profiles")
+public class DoctorProfileController {
+
+    @Autowired
+    private DoctorProfileService doctorProfileService;
+
+    @PostMapping
+    public DoctorProfileDTO createDoctorProfile(@RequestBody DoctorProfileDTO doctorProfileDTO) {
+        return doctorProfileService.createDoctorProfile(doctorProfileDTO);
+    }
+
+    @GetMapping("/{id}")
+    public DoctorProfileDTO getDoctorProfileById(@PathVariable Long id) {
+        return doctorProfileService.getDoctorProfileById(id);
+    }
+
+    @GetMapping
+    public List<DoctorProfileDTO> getAllDoctorProfiles() {
+        return doctorProfileService.getAllDoctorProfiles();
+    }
+
+    @PutMapping("/{id}")
+    public DoctorProfileDTO updateDoctorProfile(@PathVariable Long id, @RequestBody DoctorProfileDTO doctorProfileDTO) {
+        return doctorProfileService.updateDoctorProfile(id, doctorProfileDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteDoctorProfile(@PathVariable Long id) {
+        doctorProfileService.deleteDoctorProfile(id);
+    }
+}

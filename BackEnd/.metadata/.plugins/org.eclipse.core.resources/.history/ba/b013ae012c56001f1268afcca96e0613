@@ -1,0 +1,5 @@
+package com.AppDev.FinDoc.dto;
+
+public class DoctorProfileDTO {
+
+}

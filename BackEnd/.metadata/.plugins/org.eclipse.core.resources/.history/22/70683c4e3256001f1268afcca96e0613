@@ -1,0 +1,30 @@
+package com.AppDev.FinDoc.dto;
+
+
+public class DoctorProfileDTO {
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private int age;
+    private String gender;
+    private String uniqueId;
+    private String email;
+    private String mobileNumber;
+    private String maritalStatus;
+    private String qualification;
+    private String designation;
+    private String bloodGroup;
+    private String address;
+    private String country;
+    private String state;
+    private String city;
+    private String postalCode;
+    private String bio;
+    private String profilePhoto;
+    private String availability;
+    private String username;
+    private String password;
+
+    // Getters and Setters
+}
+

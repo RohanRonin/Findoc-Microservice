@@ -1,0 +1,68 @@
+package com.AppDev.FinDoc.mapper;
+
+import com.AppDev.FinDoc.dto.DoctorProfileDTO;
+import com.AppDev.FinDoc.entity.DoctorProfile;
+import org.springframework.stereotype.Component;
+
+@Component
+public class DoctorProfileMapper {
+
+    public DoctorProfileDTO toDTO(DoctorProfile doctorProfile) {
+        DoctorProfileDTO doctorProfileDTO = new DoctorProfileDTO();
+        doctorProfileDTO.setUniqueId(doctorProfile.getUniqueId());
+        doctorProfileDTO.setFirstName(doctorProfile.getFirstName());
+        doctorProfileDTO.setLastName(doctorProfile.getLastName());
+        doctorProfileDTO.setAge(doctorProfile.getAge());
+        doctorProfileDTO.setGender(doctorProfile.getGender());
+        doctorProfileDTO.setEmail(doctorProfile.getEmail());
+        doctorProfileDTO.setMobileNumber(doctorProfile.getMobileNumber());
+        doctorProfileDTO.setMaritalStatus(doctorProfile.getMaritalStatus());
+        doctorProfileDTO.setQualification(doctorProfile.getQualification());
+        doctorProfileDTO.setDesignation(doctorProfile.getDesignation());
+        doctorProfileDTO.setBloodGroup(doctorProfile.getBloodGroup());
+        doctorProfileDTO.setAddress(doctorProfile.getAddress());
+        doctorProfileDTO.setCountry(doctorProfile.getCountry());
+        doctorProfileDTO.setState(doctorProfile.getState());
+        doctorProfileDTO.setCity(doctorProfile.getCity());
+        doctorProfileDTO.setPostalCode(doctorProfile.getPostalCode());
+        doctorProfileDTO.setBio(doctorProfile.getBio());
+        doctorProfileDTO.setExperienceYears(doctorProfile.getExperienceYears());
+        doctorProfileDTO.setDepartment(doctorProfile.getDepartment());
+
+        if (doctorProfile.getProfilePhoto() != null) {
+            doctorProfileDTO.setProfilePhoto(new String(doctorProfile.getProfilePhoto()));
+        } else {
+            doctorProfileDTO.setProfilePhoto(null);
+        }
+
+        return doctorProfileDTO;
+    }
+
+    public DoctorProfile toEntity(DoctorProfileDTO doctorProfileDTO) {
+        DoctorProfile doctorProfile = new DoctorProfile();
+        doctorProfile.setUniqueId(doctorProfileDTO.getUniqueId());
+        doctorProfile.setFirstName(doctorProfileDTO.getFirstName());
+        doctorProfile.setLastName(doctorProfileDTO.getLastName());
+        doctorProfile.setAge(doctorProfileDTO.getAge());
+        doctorProfile.setGender(doctorProfileDTO.getGender());
+        doctorProfile.setEmail(doctorProfileDTO.getEmail());
+        doctorProfile.setMobileNumber(doctorProfileDTO.getMobileNumber());
+        doctorProfile.setMaritalStatus(doctorProfileDTO.getMaritalStatus());
+        doctorProfile.setQualification(doctorProfileDTO.getQualification());
+        doctorProfile.setDesignation(doctorProfileDTO.getDesignation());
+        doctorProfile.setBloodGroup(doctorProfileDTO.getBloodGroup());
+        doctorProfile.setAddress(doctorProfileDTO.getAddress());
+        doctorProfile.setCountry(doctorProfileDTO.getCountry());
+        doctorProfile.setState(doctorProfileDTO.getState());
+        doctorProfile.setCity(doctorProfileDTO.getCity());
+        doctorProfile.setPostalCode(doctorProfileDTO.getPostalCode());
+        doctorProfile.setBio(doctorProfileDTO.getBio());
+        doctorProfile.setExperienceYears(doctorProfileDTO.getExperienceYears());
+        doctorProfile.setDepartment(doctorProfileDTO.getDepartment());
+
+        // Profile photo is not set here since it should be handled in the service layer
+        doctorProfile.setProfilePhoto(null);
+
+        return doctorProfile;
+    }
+}

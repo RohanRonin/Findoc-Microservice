@@ -1,0 +1,14 @@
+package com.AppDev.FinDoc.service;
+
+
+import java.util.List;
+
+import com.AppDev.FinDoc.dto.DoctorProfileDTO;
+
+public interface DoctorProfileService {
+    DoctorProfileDTO createDoctorProfile(DoctorProfileDTO doctorProfileDTO);
+    DoctorProfileDTO getDoctorProfileById(String id);
+    List<DoctorProfileDTO> getAllDoctorProfiles();
+    DoctorProfileDTO updateDoctorProfile(Long id, DoctorProfileDTO doctorProfileDTO);
+    void deleteDoctorProfile(Long id);
+}

@@ -1,0 +1,53 @@
+package com.AppDev.FinDoc.controller;
+
+import com.AppDev.FinDoc.dto.DoctorProfileDTO;
+import com.AppDev.FinDoc.service.DoctorProfileService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+@CrossOrigin("*")
+@RestController
+@RequestMapping("/api/doctor-profiles")
+public class DoctorProfileController {
+
+    @Autowired
+    private DoctorProfileService doctorProfileService;
+
+    @PostMapping
+    public ResponseEntity<DoctorProfileDTO> createDoctorProfile(
+            @RequestParam("profilePhoto") MultipartFile profilePhoto,
+            @ModelAttribute DoctorProfileDTO doctorProfileDTO) {
+        DoctorProfileDTO createdProfile = doctorProfileService.createDoctorProfile(doctorProfileDTO, profilePhoto);
+        return ResponseEntity.ok(createdProfile);
+    }
+
+    @PutMapping("/{uniqueId}")
+    public ResponseEntity<DoctorProfileDTO> updateDoctorProfile(
+            @PathVariable String uniqueId,
+            @RequestParam("profilePhoto") MultipartFile profilePhoto,
+            @ModelAttribute DoctorProfileDTO doctorProfileDTO) {
+        DoctorProfileDTO updatedProfile = doctorProfileService.updateDoctorProfile(uniqueId, doctorProfileDTO, profilePhoto);
+        return ResponseEntity.ok(updatedProfile);
+    }
+
+    @GetMapping("/{uniqueId}")
+    public ResponseEntity<DoctorProfileDTO> getDoctorProfileById(@PathVariable String uniqueId) {
+        DoctorProfileDTO doctorProfile = doctorProfileService.getDoctorProfileById(uniqueId);
+        return ResponseEntity.ok(doctorProfile);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<DoctorProfileDTO>> getAllDoctorProfiles() {
+        List<DoctorProfileDTO> doctorProfiles = doctorProfileService.getAllDoctorProfiles();
+        return ResponseEntity.ok(doctorProfiles);
+    }
+
+    @DeleteMapping("/{uniqueId}")
+    public ResponseEntity<Void> deleteDoctorProfile(@PathVariable String uniqueId) {
+        doctorProfileService.deleteDoctorProfile(uniqueId);
+        return ResponseEntity.noContent().build();
+    }
+}

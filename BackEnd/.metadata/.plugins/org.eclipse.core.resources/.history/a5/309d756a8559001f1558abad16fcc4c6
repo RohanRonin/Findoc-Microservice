@@ -1,0 +1,105 @@
+package com.AppDev.FinDoc.service.impl;
+
+import com.AppDev.FinDoc.dto.DoctorProfileDTO;
+import com.AppDev.FinDoc.entity.DoctorProfile;
+import com.AppDev.FinDoc.mapper.DoctorProfileMapper;
+import com.AppDev.FinDoc.repository.DoctorProfileRepository;
+import com.AppDev.FinDoc.service.DoctorProfileService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+@Service
+public class DoctorProfileServiceImpl implements DoctorProfileService {
+
+    @Autowired
+    private DoctorProfileRepository doctorProfileRepository;
+
+    @Autowired
+    private DoctorProfileMapper doctorProfileMapper;
+
+    @Override
+    public DoctorProfileDTO createDoctorProfile(DoctorProfileDTO doctorProfileDTO, MultipartFile profilePhoto) {
+        DoctorProfile doctorProfile = doctorProfileMapper.toEntity(doctorProfileDTO);
+
+        // Handle file upload
+        if (profilePhoto != null && !profilePhoto.isEmpty()) {
+            try {
+                doctorProfile.setProfilePhoto(profilePhoto.getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to upload profile photo", e);
+            }
+        }
+
+        doctorProfile.setUniqueId(UUID.randomUUID().toString());
+        DoctorProfile savedDoctorProfile = doctorProfileRepository.save(doctorProfile);
+        return doctorProfileMapper.toDTO(savedDoctorProfile);
+    }
+
+    @Override
+    public DoctorProfileDTO updateDoctorProfile(String uniqueId, DoctorProfileDTO doctorProfileDTO, MultipartFile profilePhoto) {
+        Optional<DoctorProfile> existingProfileOpt = doctorProfileRepository.findById(uniqueId);
+
+        if (!existingProfileOpt.isPresent()) {
+            throw new RuntimeException("Doctor Profile not found");
+        }
+
+        DoctorProfile doctorProfile = existingProfileOpt.get();
+
+        // Update fields
+        doctorProfile.setFirstName(doctorProfileDTO.getFirstName());
+        doctorProfile.setLastName(doctorProfileDTO.getLastName());
+        doctorProfile.setAge(doctorProfileDTO.getAge());
+        doctorProfile.setGender(doctorProfileDTO.getGender());
+        doctorProfile.setEmail(doctorProfileDTO.getEmail());
+        doctorProfile.setMobileNumber(doctorProfileDTO.getMobileNumber());
+        doctorProfile.setMaritalStatus(doctorProfileDTO.getMaritalStatus());
+        doctorProfile.setQualification(doctorProfileDTO.getQualification());
+        doctorProfile.setDesignation(doctorProfileDTO.getDesignation());
+        doctorProfile.setBloodGroup(doctorProfileDTO.getBloodGroup());
+        doctorProfile.setAddress(doctorProfileDTO.getAddress());
+        doctorProfile.setCountry(doctorProfileDTO.getCountry());
+        doctorProfile.setState(doctorProfileDTO.getState());
+        doctorProfile.setCity(doctorProfileDTO.getCity());
+        doctorProfile.setPostalCode(doctorProfileDTO.getPostalCode());
+        doctorProfile.setBio(doctorProfileDTO.getBio());
+
+        // Handle file upload
+        if (profilePhoto != null && !profilePhoto.isEmpty()) {
+            try {
+                doctorProfile.setProfilePhoto(profilePhoto.getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to upload profile photo", e);
+            }
+        } else if (doctorProfileDTO.getProfilePhoto() != null) {
+            doctorProfile.setProfilePhoto(Base64.getDecoder().decode(doctorProfileDTO.getProfilePhoto()));
+        }
+
+        DoctorProfile updatedDoctorProfile = doctorProfileRepository.save(doctorProfile);
+        return doctorProfileMapper.toDTO(updatedDoctorProfile);
+    }
+
+    @Override
+    public DoctorProfileDTO getDoctorProfileById(String uniqueId) {
+        DoctorProfile doctorProfile = doctorProfileRepository.findById(uniqueId)
+                .orElseThrow(() -> new RuntimeException("Doctor Profile not found"));
+        return doctorProfileMapper.toDTO(doctorProfile);
+    }
+
+    @Override
+    public List<DoctorProfileDTO> getAllDoctorProfiles() {
+        List<DoctorProfile> doctorProfiles = doctorProfileRepository.findAll();
+        return doctorProfiles.stream().map(doctorProfileMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteDoctorProfile(String uniqueId) {
+        doctorProfileRepository.deleteById(uniqueId);
+    }
+}

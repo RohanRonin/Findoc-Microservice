@@ -1,0 +1,65 @@
+package com.AppDev.FinDoc.mapper;
+
+import com.AppDev.FinDoc.dto.DoctorProfileDTO;
+import com.AppDev.FinDoc.entity.DoctorProfile;
+import org.springframework.stereotype.Component;
+
+import java.util.Base64;
+
+@Component
+public class DoctorProfileMapper {
+
+    public DoctorProfile toEntity(DoctorProfileDTO dto) {
+        DoctorProfile entity = new DoctorProfile();
+        entity.setUniqueId(dto.getUniqueId());
+        entity.setFirstName(dto.getFirstName());
+        entity.setLastName(dto.getLastName());
+        entity.setAge(dto.getAge());
+        entity.setGender(dto.getGender());
+        entity.setEmail(dto.getEmail());
+        entity.setMobileNumber(dto.getMobileNumber());
+        entity.setMaritalStatus(dto.getMaritalStatus());
+        entity.setQualification(dto.getQualification());
+        entity.setDesignation(dto.getDesignation());
+        entity.setBloodGroup(dto.getBloodGroup());
+        entity.setAddress(dto.getAddress());
+        entity.setCountry(dto.getCountry());
+        entity.setState(dto.getState());
+        entity.setCity(dto.getCity());
+        entity.setPostalCode(dto.getPostalCode());
+        entity.setBio(dto.getBio());
+
+        if (dto.getProfilePhoto() != null) {
+            entity.setProfilePhoto(Base64.getDecoder().decode(dto.getProfilePhoto()));
+        }
+
+        return entity;
+    }
+
+    public DoctorProfileDTO toDTO(DoctorProfile entity) {
+        DoctorProfileDTO dto = new DoctorProfileDTO();
+        dto.setUniqueId(entity.getUniqueId());
+        dto.setFirstName(entity.getFirstName());
+        dto.setLastName(entity.getLastName());
+        dto.setAge(entity.getAge());
+        dto.setGender(entity.getGender());
+        dto.setEmail(entity.getEmail());
+        dto.setMobileNumber(entity.getMobileNumber());
+        dto.setMaritalStatus(entity.getMaritalStatus());
+        dto.setQualification(entity.getQualification());
+        dto.setDesignation(entity.getDesignation());
+        dto.setBloodGroup(entity.getBloodGroup());
+        dto.setAddress(entity.getAddress());
+        dto.setCountry(entity.getCountry());
+        dto.setState(entity.getState());
+        dto.setCity(entity.getCity());
+        dto.setPostalCode(entity.getPostalCode());
+        dto.setBio(entity.getBio());
+
+        if (entity.getProfilePhoto() != null) {
+            dto.setProfilePhoto(Base64.getEncoder().encodeToString(entity.getProfilePhoto()));
+        }
+
+        return dto;
+    }
+}
